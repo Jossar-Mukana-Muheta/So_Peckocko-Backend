@@ -1,8 +1,12 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
+const mongoose = require('mongoose')
+
+// Routes
 const userRoutes = require('./routes/user');
 const sauceRoutes = require('./routes/sauce')
+
 
 
 // BDD

@@ -1,4 +1,4 @@
-const Sauce = require("./models/sauce");
+const Sauce = require("../models/sauce");
 
 exports.getAll = (req, res, next) => {};
 
