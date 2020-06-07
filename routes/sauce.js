@@ -1,39 +1,24 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 
+const sauceController = require("../controllers/sauce");
 
- //---------------- Routes Get 
- router.get('/', (req, res, next)=>{
+//---------------- Routes Get
+router.get("/", sauceController.getAll);
+router.get("/:id", sauceController.getOne);
 
+//--------------- Routes Post
 
- });
- router.get('/:id',(req, res, next)=>{
-     
- } );
+router.post("/", sauceController.creatOne);
 
+router.post("/:id/like", sauceController.likeOne);
 
- //--------------- Routes Post
+//----------------- Routes Put
 
- router.post('/',(req, res, next)=>{
-     
-} );
-
-router.post('/:id/like',(req, res, next)=>{
-     
-} );
-
-//----------------- Routes Put 
-
-router.get('/:id',(req, res, next)=>{
-     
-} );
+router.get("/:id", sauceController.modifieOne);
 
 //----------------- Routes Delet
 
-router.get('/:id',(req, res, next)=>{
-     
-} );
-
-
+router.get("/:id", sauceController.deleteone);
 
 module.exports = router;

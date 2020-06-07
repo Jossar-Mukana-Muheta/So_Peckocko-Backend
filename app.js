@@ -1,9 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
-const User = require('./models/user');
-const Sauce = require('./models/sauce');
 const userRoutes = require('./routes/user');
+const sauceRoutes = require('./routes/sauce')
 
 
 // BDD
@@ -25,6 +24,7 @@ app.use((req, res, next) => {
   app.use(bodyParser.json());
 
   app.use('/api/auth/', userRoutes);
+  app.use('/api/sauces/', sauceRoutes);
 
 
 
