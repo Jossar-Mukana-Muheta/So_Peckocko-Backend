@@ -6,13 +6,13 @@ const sauceController = require("../controllers/sauce");
 
 //---------------- Routes Get
 router.get("/",auth, sauceController.getAll);
-router.get("/:id", sauceController.getOne);
+router.get("/:id",auth, sauceController.getOne);
 
 //--------------- Routes Post
 
 router.post("/",auth, sauceController.creatOne);
 
-router.post("/:id/like", sauceController.likeOne);
+router.post("/:id/like",auth, sauceController.likeOne);
 
 //----------------- Routes Put
 
