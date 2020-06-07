@@ -15,10 +15,10 @@ router.post("/:id/like", sauceController.likeOne);
 
 //----------------- Routes Put
 
-router.get("/:id", sauceController.modifieOne);
+router.put("/:id", sauceController.modifieOne);
 
 //----------------- Routes Delet
 
-router.get("/:id", sauceController.deleteone);
+router.delete("/:id", sauceController.deleteone);
 
 module.exports = router;
