@@ -44,6 +44,10 @@ console.log(sauce)
 
 exports.modifieOne = (req, res, next) => {};
 
-exports.deleteone = (req, res, next) => {};
+exports.deleteone = (req, res, next) => {
+  Sauce.deleteOne({ _id: req.params.id })
+    .then(res.status(201).json({message:"Sauce suprimé !"}))
+    .catch(error => res.status(401).json({error}))
+};
 
 exports.likeOne = (req, res, next) => {};
