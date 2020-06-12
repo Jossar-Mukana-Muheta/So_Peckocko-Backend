@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const auth = require('../middleware/auth')
+const multer = require('../middleware/multer-config');
 
 const sauceController = require("../controllers/sauce");
 
@@ -10,7 +11,7 @@ router.get("/:id",auth, sauceController.getOne);
 
 //--------------- Routes Post
 
-router.post("/",auth, sauceController.creatOne);
+router.post("/",auth,multer, sauceController.creatOne);
 
 router.post("/:id/like",auth, sauceController.likeOne);
 
