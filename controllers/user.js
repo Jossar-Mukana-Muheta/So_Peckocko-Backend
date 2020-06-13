@@ -12,7 +12,7 @@ exports.createUser = (req, res, next) => {
                 password: hash
             });
             user.save()
-                .then(()=>res.status(200).json({message:"Utilisater crée !"}))
+                .then(()=>res.status(200).json({message:"Utilisateur crée !"}))
                 .catch(error => res.status(500).json({error}))
         })
         .catch(error => res.status(500).json({error}))

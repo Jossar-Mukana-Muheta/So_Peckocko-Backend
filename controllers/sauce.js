@@ -42,7 +42,9 @@ console.log(sauce)
     .catch(res.status(401).json({ error: "ca passe pas" }));
 };
 
-exports.modifieOne = (req, res, next) => {};
+exports.modifieOne = (req, res, next) => {
+  
+};
 
 exports.deleteone = (req, res, next) => {
   Sauce.deleteOne({ _id: req.params.id })
