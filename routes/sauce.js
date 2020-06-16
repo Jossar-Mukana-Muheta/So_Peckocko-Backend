@@ -13,7 +13,7 @@ router.get("/:id",auth, sauceController.getOne);
 
 router.post("/",auth,multer, sauceController.creatOne);
 
-router.post("/:id/like",auth, sauceController.likeOne);
+router.post("/:id/like",auth,multer, sauceController.likeOne);
 
 //----------------- Routes Put
 
