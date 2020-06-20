@@ -1,4 +1,5 @@
 const Sauce = require("../models/sauce");
+const fs = require('fs');
 
 exports.getAll = (req, res, next) => {
   Sauce.find()
@@ -59,7 +60,7 @@ exports.deleteone = (req, res, next) => {
     .then(sauce => {
       const filename = sauce.imageUrl.split('/images/')[1];
       fs.unlink(`images/${filename}`, () => {
-        Thing.deleteOne({ _id: req.params.id })
+        Sauce.deleteOne({ _id: req.params.id })
           .then(() => res.status(200).json({ message: 'Objet supprimé !'}))
           .catch(error => res.status(400).json({ error }));
       });
@@ -67,4 +68,28 @@ exports.deleteone = (req, res, next) => {
     .catch(error => res.status(500).json({ error }));
 };
 
-exports.likeOne = (req, res, next) => {};
+exports.likeOne = (req, res, next) => {
+  // récupération de la sauce 
+
+ 
+  Sauce.findOne({ _id: req.params.id })
+  .then(sauce => {res.status(200).json(sauce.usersDisliked)
+  
+  let pas = sauce.likes + 1
+
+  Sauce.updateOne({ _id: req.params.id } )
+  sauce.likes = pas
+  sauce.save();
+
+  console.log(pas)
+    }
+  
+  )
+  .catch(error => res.status(400).json({ error }));
+ 
+
+
+  
+
+  
+};
