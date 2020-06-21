@@ -11,7 +11,7 @@ const sauceRoutes = require('./routes/sauce')
 
 
 // BDD
-mongoose.connect('mongodb+srv://visiteur:Kelycia14@sopekocko-bupfs.mongodb.net/?retryWrites=true&w=majority',
+mongoose.connect('mongodb+srv://jossar:Kelycia14@sopekocko-bupfs.mongodb.net/?retryWrites=true&w=majority',
   { useNewUrlParser: true,
     useUnifiedTopology: true })
   .then(() => console.log('Connexion à MongoDB réussie !'))
