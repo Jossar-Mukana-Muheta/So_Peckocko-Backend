@@ -7,13 +7,10 @@ let key = "JAVASCRIPTNODEJSREACTJS1234567890";
 
 exports.createUser = (req, res, next) => {
   //chiffrage
-
-  let user_password  = req.body.password;
+  let user_password = req.body.password;
   let encrypte = crypto
     .createCipher("aes-256-ctr", key)
-    .update(user_password , "utf-8", "hex");
-
-  console.log(encrypte);
+    .update(user_password, "utf-8", "hex");
 
   bcrypt
     .hash(encrypte, 10)
@@ -36,14 +33,11 @@ exports.loginUser = (req, res, next) => {
       if (!user) {
         return res.status(401).json({ error: "Utilisateur non trouvé !" });
       } else {
-          // chiffrage
+        // chiffrage
         let user_password = req.body.password;
         let encrypte = crypto
           .createCipher("aes-256-ctr", key)
-          .update(user_password , "utf-8", "hex");
-
-        console.log(encrypte);
-
+          .update(user_password, "utf-8", "hex");
         bcrypt
           .compare(encrypte, user.password)
           .then((valid) => {

@@ -6,7 +6,6 @@ exports.getAll = (req, res, next) => {
   Sauce.find()
     .then((sauce) => res.status(200).json(sauce))
     .catch((error) => res.status(400).json({ error }));
-    
 };
 
 exports.getOne = (req, res, next) => {
@@ -29,7 +28,7 @@ exports.creatOne = (req, res, next) => {
     usersLiked: [],
     usersDisliked: [],
   });
-  
+
   sauce
     .save()
     .then(res.status(201).json({ message: "sauce enregistré" }))
@@ -64,167 +63,68 @@ exports.deleteone = (req, res, next) => {
     .catch((error) => res.status(500).json({ error }));
 };
 
-/*exports.likeOne = (req, res, next) => {
-  // récupération de la sauce
-  let userChoice = req.body.like;
-
-
+exports.likeOne = (req, res, next) => {
   Sauce.findOne({ _id: req.params.id })
     .then((sauce) => {
-      let user = sauce.userId;
-      let usersDisliked = sauce.usersDisliked;
-      let usersLiked = sauce.usersLiked;
-      let sauceLikeNumber = sauce.likes
-      let sauceDisLikeNumber = sauce.dislikes
-      console.log(userChoice);
-      console.log(user)
+      let updateLike = sauce.usersLiked;
+      let updateDisLike = sauce.usersDisliked;
+      let user = req.body.userId;
+      let sauceChoisit = req.params.id;
+      let choix = req.body.like;
 
-      if (userChoice = 0){
-        console.log("il a choisit zero")
-        if(usersLiked.includes(user)=== true){
-          for(let i = 0; i <= usersLiked.length;i++){
-            if(usersLiked.includes(user)){
-              
-              usersLiked.splice(i,1)
-              }
-             break
+      if (choix === 1) {
+        updateLike.push(user);
+        Sauce.findOneAndUpdate(
+          { _id: sauceChoisit },
+          { usersLiked: updateLike, likes: updateLike.length },
+          { new: true }
+        )
+          .then(() => res.status(201).json({ message: "Objet modifié" }))
+          .catch((error) => res.status(400).json({ error }));
+      } else if (choix === -1) {
+        updateDisLike.push(user);
+        Sauce.findOneAndUpdate(
+          { _id: sauceChoisit },
+          { usersDisliked: updateDisLike, dislikes: updateDisLike.length },
+          { new: true }
+        )
+          .then(() => res.status(201).json({ message: "Objet modifié" }))
+          .catch((error) => res.status(400).json({ error }));
+      } else {
+        if (updateLike.includes(user) === true) {
+          for (let i = 0; i <= updateLike.length; i++) {
+            if (updateLike.includes(user)) {
+              updateLike.splice(i, 1);
+            }
+            break;
           }
 
-          Sauce.findOneAndUpdateLike({_id: req.params.id },{usersLiked: usersLiked, likes : usersLiked.length, usersDisliked:usersDisliked, dislikes : usersDisliked.length},{new:true})
-            .then(()=> res.status(201).json({message : "ok"}))
-            .error(error => res.status(400).json({error}))
-
-        }  else if(usersDisliked.includes(user)=== true){
-
-          for(let i = 0; i <= usersDisliked.length;i++){
-            if(usersDisliked.includes(user)){
-              
-              usersDisliked.splice(i,1)
-              }
-             break
+          Sauce.findOneAndUpdate(
+            { _id: sauceChoisit },
+            { usersLiked: updateLike, likes: updateLike.length },
+            { new: true }
+          )
+            .then(() => res.status(201).json({ message: "ok" }))
+            .error((error) => res.status(400).json({ error }));
+        } else {
+          for (let i = 0; i <= updateDisLike.length; i++) {
+            if (updateDisLike.includes(user)) {
+              updateDisLike.splice(i, 1);
+            }
+            break;
           }
 
-          Sauce.findOneAndUpdateLike({_id: req.params.id },{usersLiked: usersLiked, likes : usersLiked.length, usersDisliked:usersDisliked, dislikes : usersDisliked.length},{new:true})
-          .then(()=> res.status(201).json({message : "ok"}))
-          .error(error => res.status(400).json({error}))
+          Sauce.findOneAndUpdate(
+            { _id: sauceChoisit },
+            { usersDisliked: updateDisLike, dislikes: updateDisLike.length },
+            { new: true }
+          )
+            .then(() => res.status(201).json({ message: "ok" }))
+            .error((error) => res.status(400).json({ error }));
         }
-
-
-
       }
-
-      // likes
-      else if(userChoice = 1 || usersLiked.includes(user)=== false){
-        console.log("ila choisit 1")
-        if(usersDisliked.includes(user)=== true){
-          for(let i = 0; i <= usersDisliked.length;i++){
-            if(usersDisliked.includes(user)){
-              usersDisliked.splice(i,1)
-              }
-             break
-          }
-
-        }  
-
-        usersLiked.push(user)
-        Sauce.findOneAndUpdateLike({_id: req.params.id },{usersLiked: usersLiked, likes : usersLiked.length,usersDisliked:usersDisliked, dislikes : usersDisliked.length},{new:true})
-          .then(()=>res.status(200).json({message : "ok"}))
-          .catch((error) => res.status(401).json({ error }))
-      }
-      // Dislikes
-      else if(userChoice = -1 || usersDisliked.includes(user)=== false){
-        console.log("il a choisit -1")
-        if(usersLiked.includes(user)=== true){
-          console.log("il avait aimer avant")
-          for(let i = 0; i <= usersLiked.length;i++){
-            if(usersLiked.includes(user)){
-              
-              usersLiked.splice(i,1)
-              console.log("sauce aimé supprimé")
-              }
-             break
-          }
-
-        }  
-        usersDisliked.push(user)
-        Sauce.findOneAndUpdateLike({_id: req.params.id },{usersLiked: usersLiked, likes : usersLiked.length,usersDisliked:usersDisliked, dislikes : usersDisliked.length},{new:true})
-          .then(()=>res.status(200).json({message : "ok"}))
-          .catch((error) => res.status(401).json({ error }))
-      }else{
-        res.status(500).json({error})
-      }
-
-      res.status(200).json({message : "ok"})
-
     })
-    .catch((error) => res.status(401).json({ error }));
-};*/
+    .catch((error) => res.status(400).json({ error }));
 
-exports.likeOne = (req, res, next) => {
-
-
-  // Récupération de la sauce en BDD 
-  Sauce.findOne({_id : req.params.id})
-    .then(sauce =>{
-
-      let updateLike = sauce.usersLiked
-      let updateDisLike = sauce.usersDisliked
-      let user = req.body.userId
-      let sauceChoisit = req.params.id
-      let choix = req.body.like
-
-      if(choix === 1 ){
-        console.log("il a choisit 1")
-        
-        updateLike.push(user)
-        Sauce.findOneAndUpdate({_id : sauceChoisit}, {usersLiked : updateLike, likes : updateLike.length}, {new: true})
-          .then(()=> res.status(201).json({message : "Objet modifié"}))
-          .catch(error => res.status(400).json({error}))
-        console.log(updateLike)
-    
-      }else if(choix === -1 ){
-        console.log("il a choisit -1")
-        updateDisLike.push(user)
-        Sauce.findOneAndUpdate({_id : sauceChoisit}, {usersDisliked : updateDisLike, dislikes : updateDisLike.length}, {new: true})
-          .then(()=> res.status(201).json({message : "Objet modifié"}))
-          .catch(error => res.status(400).json({error}))
-
-      } else  {
-
-        console.log("il à choisit zero")
-        if(updateLike.includes(user)=== true){
-          for(let i = 0; i <= updateLike.length;i++){
-            if(updateLike.includes(user)){
-              updateLike.splice(i,1)
-              }
-             break
-          }
-
-          Sauce.findOneAndUpdate({_id: sauceChoisit },{usersLiked: updateLike, likes : updateLike.length},{new:true})
-            .then(()=> res.status(201).json({message : "ok"}))
-            .error((error) => res.status(400).json({error}))
-
-        }else {
-          for(let i = 0; i <= updateDisLike.length;i++){
-            if(updateDisLike.includes(user)){
-              updateDisLike.splice(i,1)
-              }
-             break
-          }
-
-          Sauce.findOneAndUpdate({_id: sauceChoisit },{usersDisliked: updateDisLike, dislikes : updateDisLike.length},{new:true})
-            .then(()=> res.status(201).json({message : "ok"}))
-            .error((error) => res.status(400).json({error}))
-        }
-
-        console.log("il à choisit zéro")
-      }
-
-
-    })
-    .catch()
-
-
-  
-  res.status(200).json({message : "ok"})
-}
+  res.status(200).json({ message: "ok" });
+};
