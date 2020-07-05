@@ -1,21 +1,21 @@
 const Sauce = require("../models/sauce");
 const fs = require("fs");
-const { findOneAndUpdateLike, updateLike } = require("../models/sauce");
+
 
 exports.getAll = (req, res, next) => {
   Sauce.find()
-    
+
     .then((sauce) => {
-      
       res.status(200).json(sauce);
     })
     .catch((error) => res.status(400).json({ error }));
-
 };
 
 exports.getOne = (req, res, next) => {
   Sauce.findOne({ _id: req.params.id })
-    .then((sauce) => res.status(200).json(sauce))
+    .then((sauce) => {
+      res.status(200).json(sauce)
+    })
     .catch((error) => res.status(400).json({ error }));
 };
 
@@ -37,7 +37,7 @@ exports.creatOne = (req, res, next) => {
   sauce
     .save()
     .then(res.status(201).json({ message: "sauce enregistré" }))
-    .catch(res.status(401).json({ error: "ca passe pas" }));
+    .catch(res.status(401).json({ error}));
 };
 
 exports.modifieOne = (req, res, next) => {
